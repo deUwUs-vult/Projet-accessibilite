@@ -11,6 +11,7 @@ services:
         - "3000:3000"
       volumes:
         - .:/usr/accessibilite
+        - "/usr/accessibilite/node_modules"
 
     db:
       image: mysql:latest
