@@ -16,8 +16,7 @@ export default function page({params}: {params: {id: string}}){
 
     return (
         <div className='bg-[#383F51] w-screen h-screen flex'>
-            <NameForQuiz></NameForQuiz>
-            
+            <NameForQuiz name={params.id}></NameForQuiz>
         </div>
     );
 }

@@ -3,13 +3,12 @@ import Link from 'next/link';
 import React, { useEffect } from 'react';
 
 type Props = {
-    id: number;
     name: string;
 };
 
 export default function Template(props: Props) {
     return (
-        <Link href={`/template/${props.id}`} className=" bg-[#777777] max-w-sm rounded overflow-hidden shadow-lg m-4">
+        <Link href={`/template/${props.name}`} className=" bg-[#777777] max-w-sm rounded overflow-hidden shadow-lg m-4">
             {/* <img className="w-full" src="" alt=""> </img> */}
             <div className="px-6 py-4">
                 <div className="font-bold text-xl mb-2">{props.name}</div>
