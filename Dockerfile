@@ -1,15 +1,10 @@
-FROM node:18-alpine3.18
+FROM node:20
 
 WORKDIR /usr/accessibilite
 
-COPY package.json ./
-
+COPY package*.json ./
 RUN npm install
+COPY . .
 
-COPY . ./
-COPY .env .env
-RUN npx prisma generate
-#RUN npx prisma db push
-
-CMD ["npm", "run", "dev"]
+CMD npx prisma generate && npx prisma db push && npm run dev
 

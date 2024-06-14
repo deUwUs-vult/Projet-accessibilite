@@ -1,29 +1,35 @@
 version: "3"
 
 services:
-    accessibilite:
-      build:
-        context: .
-        dockerfile: Dockerfile
-      restart: on-failure
+  accessibilite:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
 
-      ports:
-        - "3000:3000"
-      volumes:
-        - .:/usr/accessibilite
-        - "/usr/accessibilite/node_modules"
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/accessibilite
 
-    db:
-      image: mysql:latest
-      environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: database
-        MYSQL_USER: user
-        MYSQL_PASSWORD: password
-      volumes:
-        - db_data:/var/lib/mysql
-      ports:
-        - "3306:3306"
+  db:
+    image: mysql:latest
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 1s
+      timeout: 5s
+      retries: 300
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
 
 volumes:
   db_data:

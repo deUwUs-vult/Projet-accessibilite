@@ -18,6 +18,7 @@ model User {
   Account       Account?
   // Optional for WebAuthn support
   Authenticator Authenticator[]
+  userSurveys   UserSurveys[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -81,4 +82,58 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+model Template {
+  id   String @id @default(cuid())
+  name String
+
+  surveys         Survey?
+  templatesColors TemplatesColors?
+}
+
+model TemplatesColors {
+  id               String   @id @default(cuid())
+  templateId       String   @unique
+  font             String
+  background       String
+  secondBackground String
+  links            String
+  placeholders     String
+  template         Template @relation(fields: [templateId], references: [id])
+}
+
+model Survey {
+  id              String            @id @default(cuid())
+  name            String
+  description     String
+  templateId      String            @unique
+  template        Template          @relation(fields: [templateId], references: [id])
+  surveyQuestions SurveyQuestions[]
+  userSurveys     UserSurveys[]
+}
+
+model SurveyQuestions {
+  id       String          @id @default(cuid())
+  surveyId String
+  type     String
+  question String
+  answers  SurveyAnswers[]
+  survey   Survey          @relation(fields: [surveyId], references: [id])
+}
+
+model SurveyAnswers {
+  id               String          @id @default(cuid())
+  surveyQuestionId String
+  isCorrect        Boolean
+  answer           String
+  surveyQuestion   SurveyQuestions @relation(fields: [surveyQuestionId], references: [id])
+}
+
+model UserSurveys {
+  id       String @id @default(cuid())
+  userId   String
+  surveyId String
+  user     User   @relation(fields: [userId], references: [id])
+  survey   Survey @relation(fields: [surveyId], references: [id])
 }
