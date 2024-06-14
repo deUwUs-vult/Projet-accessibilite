@@ -1,5 +1,7 @@
 "use client";
 import React, { useEffect } from 'react';
+import Footer from '@/components/footer';
+import NameForQuiz from '@/components/nameForQuiz';
 
 
 export default function page({params}: {params: {id: string}}){
@@ -13,9 +15,9 @@ export default function page({params}: {params: {id: string}}){
     })},[]);
 
     return (
-        <div>
-            <h1>Template Page</h1>
-            <p>Template ID: {params.id}</p>
+        <div className='bg-[#383F51] w-screen h-screen flex'>
+            <NameForQuiz></NameForQuiz>
+            
         </div>
     );
 }

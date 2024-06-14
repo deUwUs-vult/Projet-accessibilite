@@ -4,19 +4,19 @@ import Template from "@/components/templates";
 import { useState, useEffect } from "react";
 export default function Home() {
   const [templateList, setTemplateList] = useState<number[]>([]);
+  const [templateName, setTemplateName] = useState<string[]>(["Quiz", "QCM", "Sondage"]);
 
   useEffect(() => {
     fetch ("api/template", {method: "GET"})
   .then(async (res) => {
-    
     setTemplateList([1,2,3]);
   });
   },[]);
   
   return (
-      <div className="flex flex-col items-center justify-center min-h-screen py-2">
-        {templateList.map((id) => (
-          <Template id={id} key={id}/>
+      <div className="flex items-center justify-center min-w-screen min-h-screen">
+        {templateList.map((id, i) => (
+          <Template id={id} name={templateName[i]} key={id}/>
         ))}
       </div>
   );
